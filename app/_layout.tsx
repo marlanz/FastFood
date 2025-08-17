@@ -1,7 +1,6 @@
 import { useFonts } from "expo-font";
 import { SplashScreen, Stack } from "expo-router";
-import { useEffect, useState } from "react";
-import { View } from "react-native";
+import { useEffect } from "react";
 import "./globals.css";
 
 export default function RootLayout() {
@@ -13,27 +12,12 @@ export default function RootLayout() {
     "QuickSand-Light": require("../assets/fonts/Quicksand-Light.ttf"),
   });
 
-  const [appIsReady, setAppIsReady] = useState(false);
-
   useEffect(() => {
-    async function prepare() {
-      try {
-        if (error) throw error;
-        if (fontsLoaded) {
-          await SplashScreen.hideAsync();
-          setAppIsReady(true);
-        }
-      } catch (e) {
-        console.warn(e);
-      }
-    }
-    prepare();
+    if (error) throw error;
+    if (fontsLoaded) SplashScreen.hideAsync();
   }, [fontsLoaded, error]);
 
-  if (!appIsReady) {
-    // Prevent UI from rendering until fonts are loaded
-    return <View />;
-  }
+  if (!fontsLoaded) return null;
 
   return <Stack screenOptions={{ headerShown: false }} />;
 }
