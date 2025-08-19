@@ -1,6 +1,6 @@
-import CustomInput from "@/components/CustomInput";
 import { images } from "@/constants";
-import { Redirect } from "expo-router";
+import useAuthStore from "@/store/auth.store";
+import { Redirect, Slot } from "expo-router";
 import React from "react";
 import {
   Dimensions,
@@ -12,11 +12,10 @@ import {
   View,
 } from "react-native";
 
-const _Layout = () => {
-  const isAuthenticated = false;
-  if (isAuthenticated) {
-    return <Redirect href="/" />;
-  }
+const AuthLayout = () => {
+  const { isAuthenticated } = useAuthStore();
+
+  if (isAuthenticated) return <Redirect href={"/"} />;
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === "ios" ? "padding" : "height"}
@@ -40,16 +39,10 @@ const _Layout = () => {
             className="self-center size-48 absolute -bottom-16 z-10"
           />
         </View>
-        <CustomInput
-          placeholder="Enter your email"
-          value=""
-          onChangeText={(text) => {}}
-          label="Email"
-          keyboardType="email-address"
-        />
+        <Slot />
       </ScrollView>
     </KeyboardAvoidingView>
   );
 };
 
-export default _Layout;
+export default AuthLayout;
