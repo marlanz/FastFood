@@ -14,7 +14,7 @@ const SignUp = () => {
     const fetchUser = async () => {
       try {
         const currentUser = await getCurrentUser();
-        console.log(currentUser);
+        // console.log(currentUser);
       } catch (err) {
         console.error("Failed to fetch user:", err);
       }
